@@ -26,7 +26,7 @@ export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): ex
     router.post('/', async (req: Request, res: Response): Promise<void> => {
         try {
             const { first, last, username, password } = req.body
-            if ([first, last, username, password].every(params => params !== undefined)) {
+            if ([first, last, username, password].every(params => params !== undefined && typeof params === 'string')) {
                 await signup.execute(req.body)
                 Logger.log('info', 'Succesfully added user to the database.')
                 res.status(200).json({ message: 'Successfuly signed up.' })
@@ -40,6 +40,7 @@ export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): ex
     })
     /* NOT ALLOWED METHODS */
     router.all('/', (req: Request, res: Response) => {
+        Logger.log('warn', 'Request method not allowed/implemented.')
         res.status(501).end()
     })
     return router
