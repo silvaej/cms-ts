@@ -6,12 +6,14 @@ Logger.setLogger()
 export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): express.Router {
     const router = express.Router()
     /** LOGIN ROUTE */
-    router.get('/:username/:password', async (req: Request, res: Response): Promise<void> => {
+    router.get('/', async (req: Request, res: Response): Promise<void> => {
         try {
-            const { username, password } = req.params
-            const result = await login.execute(username, password)
-            Logger.log('info', `User ${result.name} with id ${result.id} is logged in successfuly.`)
-            res.status(200).json(result)
+            const { username, password } = req.query
+            if (typeof username == 'string' && typeof password == 'string') {
+                const result = await login.execute(username, password)
+                Logger.log('info', `User ${result.name} with id ${result.id} is logged in successfuly.`)
+                res.status(200).json(result)
+            } else res.status(400).json({ error: 'Missing query parameter/s' })
         } catch (err) {
             if (err instanceof Error) {
                 Logger.log('error', err.message)
@@ -23,9 +25,12 @@ export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): ex
     /** SIGNUP ROUTE */
     router.post('/', async (req: Request, res: Response): Promise<void> => {
         try {
-            await signup.execute(req.body)
-            Logger.log('info', 'Succesfully added user to the database.')
-            res.status(200).json({ message: 'Successfuly signed up.' })
+            const { first, last, username, password } = req.body
+            if ([first, last, username, password].every(params => params !== undefined)) {
+                await signup.execute(req.body)
+                Logger.log('info', 'Succesfully added user to the database.')
+                res.status(200).json({ message: 'Successfuly signed up.' })
+            } else res.status(400).json({ reason: 'Missing body parameter/s' })
         } catch (err) {
             if (err instanceof Error) {
                 Logger.log('error', err.message)
