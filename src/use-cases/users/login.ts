@@ -10,7 +10,7 @@ export class Login implements LoginUseCase {
         const user = await this.repository.getUser(username)
         if (!user.acknowledged && user.error) throw new Error(user.error)
         const hashedPassword = user.data!.password
-        const auth = verify(password, hashedPassword)
+        const auth = await verify(password, hashedPassword)
         if (!auth) throw new Error('Wrong Password')
         return {
             id: user.data!.id,
