@@ -2,6 +2,8 @@ import { DBResponse } from '@src/interfaces/responses/db-response'
 import { UserRequestModel, UserResponseModel } from '@src/models/user'
 import { MongoDbWrapper } from '../interfaces/mongodb-wrapper'
 import { DataSource } from '../interfaces/user-data-source'
+import { Logger } from '@src/utils/logger'
+Logger.setLogger()
 
 export class MongoDbDataSource implements DataSource {
     constructor(private db: MongoDbWrapper) {}
@@ -26,13 +28,14 @@ export class MongoDbDataSource implements DataSource {
 
     async findOneByUsername<T extends UserResponseModel>(username: string): Promise<DBResponse<T>> {
         const result = await this.db.find({ username })
-        const { _id, ...data } = result[0]
-        if (!result.length)
+        if (result.length) {
+            const { _id, ...data } = result[0]
             return {
                 acknowledged: true,
                 data: { id: _id, ...data },
                 error: null,
             }
+        }
 
         return {
             acknowledged: false,

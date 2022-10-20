@@ -9,7 +9,6 @@ export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): ex
     router.get('/:username/:password', async (req: Request, res: Response): Promise<void> => {
         try {
             const { username, password } = req.params
-            console.log(username)
             const result = await login.execute(username, password)
             Logger.log('info', `User ${result.name} with id ${result.id} is logged in successfuly.`)
             res.status(200).json(result)
