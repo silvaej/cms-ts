@@ -2,13 +2,14 @@ version: '3'
 
 services:
     nodeapp:
-        container_name: app # Change this
-        image: silvaej/name # Change this
+        container_name: cms-ts-backend
+        image: silvaej/cms-ts:1.0.1
         build:
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
             context: .
         ports:
             - '8080:8080'
+            - '9229:9229'
         volumes:
             - '.:/usr/src/app'
             - /usr/src/app/node_modules
