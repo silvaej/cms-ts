@@ -1,5 +1,5 @@
-import { ContactRequestModel } from '@src/models/contact'
+import { ContactUpdateRequest } from '@src/models/contact'
 
 export interface UpdateContactUseCase {
-    execute(id: string, contact: ContactRequestModel): Promise<void>
+    execute(id: string, contact: ContactUpdateRequest): Promise<void>
 }

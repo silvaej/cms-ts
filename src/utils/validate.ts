@@ -1,4 +1,4 @@
-import { ContactRequestModel } from '@src/models/contact'
+import { ContactRequestModel, ContactUpdateRequest } from '@src/models/contact'
 import { Address } from '@src/models/contact'
 import { UserRequestModel } from '@src/models/user'
 
