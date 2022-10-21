@@ -2,9 +2,7 @@ import { DBResponse } from '@src/interfaces/responses/db-response'
 import { UserRequestModel, UserResponseModel } from '@src/models/user'
 import { MongoDbWrapper } from '../interfaces/mongodb-wrapper'
 import { DataSource } from '../interfaces/user-data-source'
-import { Logger } from '@src/utils/logger'
 import { ContactRequestModel, ContactResponseModel, ContactUpdateRequest } from '@src/models/contact'
-Logger.setLogger()
 
 export class MongoDbDataSource implements DataSource {
     constructor(private db: MongoDbWrapper) {}

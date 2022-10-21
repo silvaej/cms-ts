@@ -3,7 +3,7 @@ import { ContactRequestModel, ContactResponseModel, ContactUpdateRequest } from 
 import { UserRequestModel, UserResponseModel } from '@src/models/user'
 
 export interface DataSource {
-    /** Find a specific record from the database using the id*/
+    /** Find a specific record from the database using the id */
     findOneById<T extends UserResponseModel>(id: string): Promise<DBResponse<T>>
     /** Find a specific record from the database using a query i.e {username} */
     findOneByUsername<T extends UserResponseModel>(username: string): Promise<DBResponse<T>>

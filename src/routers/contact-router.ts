@@ -6,7 +6,6 @@ import {
 } from '@src/interfaces/use-cases/contacts'
 import express, { Request, Response } from 'express'
 import { Logger } from '@src/utils/logger'
-import { ContactResponseModel } from '@src/models/contact'
 Logger.setLogger()
 
 export function createContactRouter(
