@@ -3,7 +3,7 @@ import { UserRequestModel, UserResponseModel } from '@src/models/user'
 import { MongoDbWrapper } from '../interfaces/mongodb-wrapper'
 import { DataSource } from '../interfaces/user-data-source'
 import { Logger } from '@src/utils/logger'
-import { ContactRequestModel, ContactResponseModel } from '@src/models/contact'
+import { ContactRequestModel, ContactResponseModel, ContactUpdateRequest } from '@src/models/contact'
 Logger.setLogger()
 
 export class MongoDbDataSource implements DataSource {
@@ -81,7 +81,7 @@ export class MongoDbDataSource implements DataSource {
 
     async findOneByIdAndUpdate<
         T extends UserResponseModel | ContactResponseModel,
-        U extends UserRequestModel | ContactRequestModel
+        U extends UserRequestModel | ContactUpdateRequest
     >(id: string, update: U): Promise<DBResponse<T>> {
         const { acknowledged, matchedCount } = await this.db.updateOne(id, { $set: update })
 

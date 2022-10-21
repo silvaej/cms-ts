@@ -1,7 +1,7 @@
 import { DataSource } from '@src/data/interfaces/user-data-source'
 import { ContactRepositoryIf } from '@src/interfaces/repositories/contact-repository'
 import { DBResponse } from '@src/interfaces/responses/db-response'
-import { ContactRequestModel, ContactResponseModel } from '@src/models/contact'
+import { ContactRequestModel, ContactResponseModel, ContactUpdateRequest } from '@src/models/contact'
 
 export class ContactRepository implements ContactRepositoryIf {
     constructor(private source: DataSource) {}
@@ -14,7 +14,7 @@ export class ContactRepository implements ContactRepositoryIf {
         return this.source.find({ owner }, search)
     }
 
-    async updateContact(id: string, contact: ContactRequestModel): Promise<DBResponse<ContactResponseModel>> {
+    async updateContact(id: string, contact: ContactUpdateRequest): Promise<DBResponse<ContactResponseModel>> {
         return this.source.findOneByIdAndUpdate(id, contact)
     }
 

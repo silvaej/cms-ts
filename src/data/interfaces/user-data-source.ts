@@ -1,5 +1,5 @@
 import { DBResponse } from '@src/interfaces/responses/db-response'
-import { ContactRequestModel, ContactResponseModel } from '@src/models/contact'
+import { ContactRequestModel, ContactResponseModel, ContactUpdateRequest } from '@src/models/contact'
 import { UserRequestModel, UserResponseModel } from '@src/models/user'
 
 export interface DataSource {
@@ -19,7 +19,7 @@ export interface DataSource {
     /** Update a document using the id parameter */
     findOneByIdAndUpdate<
         T extends UserResponseModel | ContactResponseModel,
-        U extends UserRequestModel | ContactRequestModel
+        U extends UserRequestModel | ContactUpdateRequest
     >(
         id: string,
         update: U
