@@ -83,16 +83,23 @@ export class MongoDbDataSource implements DataSource {
         T extends UserResponseModel | ContactResponseModel,
         U extends UserRequestModel | ContactRequestModel
     >(id: string, update: U): Promise<DBResponse<T>> {
-        const { acknowledged, matchedCount } = await this.db.updateOne(id, update)
+        const { acknowledged, matchedCount } = await this.db.updateOne(id, { $set: update })
+
         let response: DBResponse<T> = {
             acknowledged: false,
             data: null,
             error: null,
         }
-        if (!acknowledged) response.error = 'Something went wrong'
-        if (matchedCount === 0) response.error = 'Not found'
-        response.acknowledged = true
+        if (!acknowledged) {
+            response.error = 'Something went wrong'
+            return response
+        }
+        if (matchedCount === 0) {
+            response.error = 'Not found'
+            return response
+        }
 
+        response.acknowledged = true
         return response
     }
 
