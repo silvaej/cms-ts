@@ -27,6 +27,7 @@ export async function getDbConnection(): Promise<Db> {
     const client: MongoClient = new MongoClient(
         'mongodb+srv://zlbssLearn:hhDDU3eWbj4cSPor@silvaej.vubtfsc.mongodb.net/cms-ts-user?retryWrites=true&w=majority'
     )
+    Logger.log('info', 'Connecting to the MongoDB Client. Please wait...')
     await client.connect()
     Logger.log('info', 'Connected to MongoDB Client.')
     return client.db('CMS_TS')

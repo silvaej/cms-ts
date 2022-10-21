@@ -8,7 +8,7 @@ export class Login implements LoginUseCase {
     constructor(private repository: UserRepositoryIf) {}
     async execute(username: string, password: string): Promise<LoginResponseModel> {
         const user = await this.repository.getUser(username)
-        if (!user.acknowledged && user.error) throw new Error(user.error)
+        if (!user.acknowledged) throw new Error(user.error!)
         const hashedPassword = user.data!.password
         const auth = await verify(password, hashedPassword)
         if (!auth) throw new Error('Wrong Password')

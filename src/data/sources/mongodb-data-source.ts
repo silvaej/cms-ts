@@ -3,6 +3,7 @@ import { UserRequestModel, UserResponseModel } from '@src/models/user'
 import { MongoDbWrapper } from '../interfaces/mongodb-wrapper'
 import { DataSource } from '../interfaces/user-data-source'
 import { Logger } from '@src/utils/logger'
+import { ContactRequestModel, ContactResponseModel } from '@src/models/contact'
 Logger.setLogger()
 
 export class MongoDbDataSource implements DataSource {
@@ -44,10 +45,13 @@ export class MongoDbDataSource implements DataSource {
         }
     }
 
-    async find<T extends UserResponseModel>(query: object, search?: string | undefined): Promise<DBResponse<Array<T>>> {
+    async find<T extends UserResponseModel & ContactResponseModel>(
+        query: object,
+        search?: string | undefined
+    ): Promise<DBResponse<Array<T>>> {
         const queryString = search ? { ...query, $text: { $search: search } } : query
         const results = await this.db.find(queryString)
-        if (!results.length)
+        if (results.length)
             return {
                 acknowledged: true,
                 data: results.map(item => {
@@ -63,7 +67,10 @@ export class MongoDbDataSource implements DataSource {
         }
     }
 
-    async insertOne<T extends UserResponseModel, U extends UserRequestModel>(doc: U): Promise<DBResponse<T>> {
+    async insertOne<
+        T extends UserResponseModel | ContactResponseModel,
+        U extends UserRequestModel | ContactRequestModel
+    >(doc: U): Promise<DBResponse<T>> {
         const { acknowledged } = await this.db.insertOne(doc)
         return {
             acknowledged,
@@ -72,10 +79,10 @@ export class MongoDbDataSource implements DataSource {
         }
     }
 
-    async findOneByIdAndUpdate<T extends UserResponseModel, U extends UserRequestModel>(
-        id: string,
-        update: U
-    ): Promise<DBResponse<T>> {
+    async findOneByIdAndUpdate<
+        T extends UserResponseModel | ContactResponseModel,
+        U extends UserRequestModel | ContactRequestModel
+    >(id: string, update: U): Promise<DBResponse<T>> {
         const { acknowledged, matchedCount } = await this.db.updateOne(id, update)
         let response: DBResponse<T> = {
             acknowledged: false,
@@ -89,7 +96,7 @@ export class MongoDbDataSource implements DataSource {
         return response
     }
 
-    async findOneByIdAndDelete<T extends UserResponseModel>(id: string): Promise<DBResponse<T>> {
+    async findOneByIdAndDelete<T extends UserResponseModel | ContactResponseModel>(id: string): Promise<DBResponse<T>> {
         const { acknowledged } = await this.db.deleteOne(id)
         return {
             acknowledged,

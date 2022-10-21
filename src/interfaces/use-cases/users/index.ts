@@ -1,4 +1,2 @@
-import { LoginUseCase } from './login'
-import { SignupUseCase } from './signup'
-
-export { LoginUseCase, SignupUseCase }
+export { LoginUseCase } from './login'
+export { SignupUseCase } from './signup'

@@ -1,4 +1,3 @@
-import { DBResponse } from '@src/interfaces/responses/db-response'
 import { UserRequestModel, UserResponseModel } from '@src/models/user'
 
 export interface SignupUseCase {

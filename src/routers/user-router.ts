@@ -13,7 +13,10 @@ export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): ex
                 const result = await login.execute(username, password)
                 Logger.log('info', `User ${result.name} with id ${result.id} is logged in successfuly.`)
                 res.status(200).json(result)
-            } else res.status(400).json({ error: 'Missing query parameter/s' })
+            } else {
+                Logger.log('warn', 'Missing query parameter/s')
+                res.status(400).json({ error: 'Missing query parameter/s' })
+            }
         } catch (err) {
             if (err instanceof Error) {
                 Logger.log('error', err.message)
@@ -30,7 +33,10 @@ export function createUserRouter(login: LoginUseCase, signup: SignupUseCase): ex
                 await signup.execute(req.body)
                 Logger.log('info', 'Succesfully added user to the database.')
                 res.status(200).json({ message: 'Successfuly signed up.' })
-            } else res.status(400).json({ reason: 'Missing body parameter/s' })
+            } else {
+                Logger.log('warn', 'Missing body parameter/s')
+                res.status(400).json({ reason: 'Missing body parameter/s' })
+            }
         } catch (err) {
             if (err instanceof Error) {
                 Logger.log('error', err.message)

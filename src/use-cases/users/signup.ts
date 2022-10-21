@@ -17,6 +17,6 @@ export class Signup implements SignupUseCase {
             password: hashedPassword,
         }
         const result = await this.repository.createUser(hashedUser)
-        if (!result.acknowledged && result.error) throw new Error(result.error)
+        if (!result.acknowledged) throw new Error(result.error!)
     }
 }
