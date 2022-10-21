@@ -1,8 +1,8 @@
-interface Address {
+export interface Address {
     street: string
     city: string
     province: string
-    state: string
+    zip: string
     country: string
 }
 
