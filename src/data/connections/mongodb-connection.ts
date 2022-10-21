@@ -4,7 +4,9 @@ import { Logger } from '@src/utils/logger'
 Logger.setLogger()
 
 export class MongoDB implements MongoDbWrapper {
-    constructor(private db: Db, private collection: string) {}
+    constructor(private db: Db, private collection: string) {
+        if (collection === 'contacts') db.createIndex(collection, { '$**': 'text' })
+    }
 
     async find(query: object): Promise<Array<any>> {
         return await this.db.collection(this.collection).find(query).toArray()
@@ -30,5 +32,6 @@ export async function getDbConnection(): Promise<Db> {
     Logger.log('info', 'Connecting to the MongoDB Client. Please wait...')
     await client.connect()
     Logger.log('info', 'Connected to MongoDB Client.')
-    return client.db('CMS_TS')
+    const db = client.db('CMS_TS')
+    return db
 }

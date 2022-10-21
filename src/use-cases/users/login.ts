@@ -1,5 +1,4 @@
 import { UserRepositoryIf } from '@src/interfaces/repositories/user-repository'
-import { DBResponse } from '@src/interfaces/responses/db-response'
 import { LoginUseCase } from '@src/interfaces/use-cases/users'
 import { LoginResponseModel } from '@src/models/user'
 import { verify } from '@src/utils/hash'
