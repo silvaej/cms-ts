@@ -26,9 +26,7 @@ export class MongoDB implements MongoDbWrapper {
 }
 
 export async function getDbConnection(): Promise<Db> {
-    const client: MongoClient = new MongoClient(
-        'mongodb+srv://zlbssLearn:hhDDU3eWbj4cSPor@silvaej.vubtfsc.mongodb.net/cms-ts-user?retryWrites=true&w=majority'
-    )
+    const client: MongoClient = new MongoClient(process.env.MONGODB_URI)
     Logger.log('info', 'Connecting to the MongoDB Client. Please wait...')
     await client.connect()
     Logger.log('info', 'Connected to MongoDB Client.')
